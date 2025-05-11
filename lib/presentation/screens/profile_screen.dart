@@ -72,7 +72,7 @@ class ProfileScreen extends StatelessWidget {
                   'Email: ${user.email ?? 'N/A'}',
                   style: const TextStyle(
                     color: Colors.white70,
-                    fontSize: 18,
+                    fontSize: 15,
                     fontWeight: FontWeight.w400,
                   ),
                 ),

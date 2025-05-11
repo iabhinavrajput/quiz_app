@@ -97,11 +97,12 @@ class _AuthScreenState extends State<AuthScreen> {
                 const SizedBox(height: 40),
                 const Text(
                   'Welcome to Quiz App!',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                     color: AppColors.white,
-                    letterSpacing: 1,
+                    letterSpacing: 1.5,
                   ),
                 ),
                 const SizedBox(height: 10),
