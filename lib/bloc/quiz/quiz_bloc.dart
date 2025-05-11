@@ -1,12 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quiz_app/data/services/quiz_service.dart' show QuizService;
+import 'package:quiz_app/data/services/quiz_service.dart';
 import 'quiz_event.dart';
 import 'quiz_state.dart';
 
 class QuizBloc extends Bloc<QuizEvent, QuizState> {
   final QuizService quizService;
 
-  List<AnswerLog> _answerLogs = []; // List to store answer logs
+  List<AnswerLog> _answerLogs = [];
   List _questions = [];
 
   QuizBloc(this.quizService) : super(QuizInitial()) {
@@ -17,7 +17,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
   void _onLoadQuiz(LoadQuizEvent event, Emitter<QuizState> emit) async {
     emit(QuizLoading());
     try {
-      final questions = await quizService.fetchQuestions();
+      final questions = await quizService.fetchQuestions(difficulty: event.difficulty);
       emit(QuizLoaded(questions: questions));
     } catch (e) {
       emit(QuizError(e.toString()));
@@ -30,7 +30,6 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       final question = currentState.questions[currentState.currentQuestionIndex];
       final isCorrect = event.selectedAnswer == question.answer;
 
-      // Create an AnswerLog entry
       _answerLogs.add(AnswerLog(
         question: question.question,
         selectedAnswer: event.selectedAnswer,
@@ -47,7 +46,6 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
           score: newScore,
         ));
       } else {
-        // Pass the answerLogs when completing the quiz
         emit(QuizCompleted(newScore, currentState.questions.length, _answerLogs));
       }
     }
