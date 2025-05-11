@@ -101,7 +101,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                     color: AppColors.white,
-                    letterSpacing: 1.5,
+                    letterSpacing: 1,
                   ),
                 ),
                 const SizedBox(height: 10),
