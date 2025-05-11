@@ -29,3 +29,84 @@ cd quiz_app
 ```bash
 flutter pub get
 ```
+
+### Set up the `.env` file
+
+1. Create a `.env` file in the root directory of your project.
+2. Add your API base URL and API key:
+
+```env
+BASE_URL=https://api.groq.com/openai/v1/chat/completions
+API_KEY=your_api_key_here
+
+
+This will render as:
+
+### Set up the `.env` file
+
+1. Create a `.env` file in the root directory of your project.
+2. Add your API base URL and API key:
+
+```env
+BASE_URL=https://api.groq.com/openai/v1/chat/completions
+API_KEY=your_api_key_here
+```
+
+### Run the app
+
+For Android:
+
+```bash
+flutter run --target-platform android
+
+```
+For Ios:
+```bash
+flutter run --target-platform ios
+```
+
+
+# Quiz App
+
+## How to Use
+
+1.  Launch the app on your device.
+    
+2.  Sign in using Google.
+    
+3.  Once logged in, you can start taking quizzes.
+    
+4.  Your quiz score and answers will be saved to Firebase for future reference.
+
+## Technologies Used
+
+*   **Flutter**: A UI toolkit to build natively compiled applications for mobile.
+    
+*   **Firebase**: For user authentication and data storage.
+    
+*   **GROQ API**: For dynamically generating quiz questions.
+
+## Contributing
+
+If you'd like to contribute to the development of this app, please follow these steps:
+
+1.  Fork the repository.
+    
+2.  Create a new branch.
+    
+3.  Make your changes and submit a pull request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Contact
+
+*   **Developer**: Abhinav Rajput
+    
+*   **GitHub**: [iabhinavrajput](https://github.com/iabhinavrajput)
+    
+*   **LinkedIn**: [iabhinavrajput](https://linkedin.com/in/iabhinavrajput)
+    
+*   **Portfolio**: [abhinavrajput.xyz](https://abhinavrajput.xyz/)
+
