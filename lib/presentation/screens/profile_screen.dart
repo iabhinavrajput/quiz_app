@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:quiz_app/presentation/screens/auth_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -26,12 +28,19 @@ class ProfileScreen extends StatelessWidget {
             Text('Name: ${user.displayName ?? 'N/A'}'),
             Text('Email: ${user.email ?? 'N/A'}'),
             ElevatedButton(
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                // Go back to Home screen or sign-in screen
-              },
-              child: const Text('Sign Out'),
-            ),
+  onPressed: () async {
+    await FirebaseAuth.instance.signOut();
+    await GoogleSignIn().signOut();
+
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (_) => const AuthScreen()),
+      (route) => false,
+    );
+  },
+  child: const Text('Sign Out'),
+),
+
           ],
         ),
       ),

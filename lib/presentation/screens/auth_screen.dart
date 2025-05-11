@@ -24,6 +24,20 @@ class AuthScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Check if the user is already signed in
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      // If the user is signed in, redirect to HomeScreen
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.read<AuthBloc>().add(UserLoggedIn(user));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const HomeScreen()),
+        );
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(title: const Text('Sign In')),
       body: Center(
@@ -31,6 +45,7 @@ class AuthScreen extends StatelessWidget {
           onPressed: () async {
             final user = await signInWithGoogle(context);
             if (user != null) {
+              // Notify the BLoC that the user is logged in
               context.read<AuthBloc>().add(UserLoggedIn(user));
               Navigator.pushReplacement(
                 context,
