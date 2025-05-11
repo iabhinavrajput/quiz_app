@@ -226,8 +226,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 )
                 : _currentIndex == 1
-                ? const ProfileScreen()
-                : const TrackingScreen(),
+                ? const TrackingScreen()
+                : const ProfileScreen(),
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
@@ -263,12 +263,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person_rounded, size: 28),
-                label: 'Profile',
-              ),
-              BottomNavigationBarItem(
                 icon: Icon(Icons.analytics_rounded, size: 28),
                 label: 'Tracking',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person_rounded, size: 28),
+                label: 'Profile',
               ),
             ],
           ),
