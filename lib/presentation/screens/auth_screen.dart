@@ -5,7 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quiz_app/bloc/auth/auth_bloc.dart';
 import 'package:quiz_app/presentation/screens/home_screen.dart';
-import 'package:quiz_app/utils/constants/colors.dart'; // Import the color constants
+import 'package:quiz_app/utils/constants/colors.dart'; 
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -27,7 +27,7 @@ class _AuthScreenState extends State<AuthScreen> {
       setState(() {
         isLoading = false;
       });
-      return null; // User canceled sign-in
+      return null; 
     }
 
     final GoogleSignInAuthentication googleAuth =
@@ -43,14 +43,76 @@ class _AuthScreenState extends State<AuthScreen> {
       setState(() {
         isLoading = false;
       });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Login Success!',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              Text(
+                'Welcome back, ${userCredential.user!.displayName}!',
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: Colors.green, 
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.all(16),
+          elevation: 10,
+        ),
+      );
+
       return userCredential.user;
     } catch (e) {
       setState(() {
         isLoading = false;
       });
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Failed to sign in: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Icon(
+                Icons.error_outline,
+                color: Colors.white,
+              ),
+              Expanded(
+                child: const Text(
+                  'Please try again later',
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: Colors.red, 
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.all(16),
+          elevation: 10,
+        ),
+      );
+
       return null;
     }
   }
@@ -116,17 +178,17 @@ class _AuthScreenState extends State<AuthScreen> {
                       isLoading
                           ? null
                           : () async {
-                            final user = await signInWithGoogle(context);
-                            if (user != null) {
-                              context.read<AuthBloc>().add(UserLoggedIn(user));
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const HomeScreen(),
-                                ),
-                              );
-                            }
-                          },
+                              final user = await signInWithGoogle(context);
+                              if (user != null) {
+                                context.read<AuthBloc>().add(UserLoggedIn(user));
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const HomeScreen(),
+                                  ),
+                                );
+                              }
+                            },
                   child: AnimatedContainer(
                     height: 60,
                     duration: const Duration(milliseconds: 300),
