@@ -29,7 +29,6 @@ class TrackingScreen extends StatelessWidget {
           ),
         ),
         child: FutureBuilder<QuerySnapshot>(
-          
           future: FirebaseFirestore.instance
               .collection('users') 
               .doc(user.uid) 
@@ -63,6 +62,9 @@ class TrackingScreen extends StatelessWidget {
 
                 String formattedDate = DateFormat('MMM dd, yyyy').format(timestamp!); 
                 String formattedTime = DateFormat('hh:mm a').format(timestamp);  
+
+                // Calculate percentage if not stored
+                double percentage = (total != 0) ? (score / total * 100) : 0;
 
                 return Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -112,6 +114,16 @@ class TrackingScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
+                            'Percentage: ${percentage.toStringAsFixed(2)}%',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: percentage >= 80
+                                  ? Colors.green[700]
+                                  : Colors.red[700],
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
                             'Answers: ${answers.length}',
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
@@ -125,7 +137,7 @@ class TrackingScreen extends StatelessWidget {
                         color: AppColors.primaryGradientStart,
                       ),
                       onTap: () {
-                       
+                        
                       },
                     ),
                   ),
