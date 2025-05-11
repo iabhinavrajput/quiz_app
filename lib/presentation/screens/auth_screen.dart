@@ -38,8 +38,8 @@ class _AuthScreenState extends State<AuthScreen> {
     );
 
     try {
-      final UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
+      final UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithCredential(credential);
       setState(() {
         isLoading = false;
       });
@@ -48,9 +48,9 @@ class _AuthScreenState extends State<AuthScreen> {
       setState(() {
         isLoading = false;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to sign in: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Failed to sign in: $e')));
       return null;
     }
   }
@@ -75,7 +75,7 @@ class _AuthScreenState extends State<AuthScreen> {
           gradient: LinearGradient(
             colors: [
               AppColors.primaryGradientStart,
-              AppColors.primaryGradientEnd
+              AppColors.primaryGradientEnd,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -107,27 +107,25 @@ class _AuthScreenState extends State<AuthScreen> {
                 const SizedBox(height: 10),
                 const Text(
                   'Please sign in to continue',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: AppColors.white60,
-                  ),
+                  style: TextStyle(fontSize: 18, color: AppColors.white60),
                 ),
                 const SizedBox(height: 50),
                 GestureDetector(
-                  onTap: isLoading
-                      ? null
-                      : () async {
-                          final user = await signInWithGoogle(context);
-                          if (user != null) {
-                            context.read<AuthBloc>().add(UserLoggedIn(user));
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => const HomeScreen(),
-                              ),
-                            );
-                          }
-                        },
+                  onTap:
+                      isLoading
+                          ? null
+                          : () async {
+                            final user = await signInWithGoogle(context);
+                            if (user != null) {
+                              context.read<AuthBloc>().add(UserLoggedIn(user));
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const HomeScreen(),
+                                ),
+                              );
+                            }
+                          },
                   child: AnimatedContainer(
                     height: 60,
                     duration: const Duration(milliseconds: 300),
@@ -137,32 +135,43 @@ class _AuthScreenState extends State<AuthScreen> {
                       gradient: const LinearGradient(
                         colors: [
                           AppColors.signInGradientStart,
-                          AppColors.signInGradientEnd
+                          AppColors.signInGradientEnd,
                         ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
                       borderRadius: BorderRadius.circular(30),
                     ),
-                    child: isLoading
-                        ? const Center(
-                            child: SpinKitChasingDots(
-                              color: AppColors.white,
-                              size: 30.0,
+                    child:
+                        isLoading
+                            ? const Center(
+                              child: SpinKitChasingDots(
+                                color: AppColors.white,
+                                size: 30.0,
+                              ),
+                            )
+                            : const Text(
+                              'Sign In with Google',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.white,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                          )
-                        : const Text(
-                            'Sign In with Google',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.white,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
                   ),
                 ),
                 const SizedBox(height: 20),
+
+                const Text(
+                  'Developed by: Abhinav Rajput',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: AppColors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ],
             ),
           ),

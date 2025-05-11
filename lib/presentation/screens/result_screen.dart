@@ -146,43 +146,38 @@ class _ResultScreenState extends State<ResultScreen> with SingleTickerProviderSt
                 ),
               ),
               const SizedBox(height: 30),
-              Container(
-                width: double.infinity,
-                height: 60,
-                padding: const EdgeInsets.symmetric(vertical: 18),
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [
-                      AppColors.signInGradientStart,
-                      AppColors.signInGradientEnd
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+              GestureDetector(
+                child: Container(
+                  width: double.infinity,
+                  height: 60,
+                  padding: const EdgeInsets.symmetric(vertical: 18),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [
+                        AppColors.signInGradientStart,
+                        AppColors.signInGradientEnd
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
                     ),
-                    elevation: 0,
-                    padding: EdgeInsets.zero,
+                    borderRadius: BorderRadius.circular(30),
                   ),
-                  onPressed: () =>
-                      Navigator.popUntil(context, (route) => route.isFirst),
-                  child: const Text(
-                    'Back to Home',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                  child: Center(
+                    child: Text(
+                      'Back to Home',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.white,
+                      ),
                     ),
                   ),
                 ),
+                onTap: () {
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                },
               ),
+              
             ],
           ),
         ),
