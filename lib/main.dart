@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:no_screenshot/no_screenshot.dart'; // Correct import for no_screenshot
 import 'package:quiz_app/bloc/auth/auth_bloc.dart';
 import 'package:quiz_app/bloc/quiz/quiz_bloc.dart';
@@ -13,7 +14,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
+   await dotenv.load();
   NoScreenshot.instance; 
 
   SystemChrome.setPreferredOrientations([

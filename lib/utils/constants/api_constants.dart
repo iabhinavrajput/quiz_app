@@ -1,8 +1,9 @@
-class ApiConstants {
-  static const baseUrl = 'https://api.groq.com/openai/v1/chat/completions';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-  static const headers = {
-    'Authorization': 'Bearer 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',
+class ApiConstants {
+  static final baseUrl = dotenv.env['API_BASE_URL']!;
+  static final headers = {
+    'Authorization': 'Bearer ${dotenv.env['API_KEY']}',
     'Content-Type': 'application/json',
   };
 }
