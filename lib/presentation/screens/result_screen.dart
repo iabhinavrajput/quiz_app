@@ -176,7 +176,7 @@ class _ResultScreenState extends State<ResultScreen> with SingleTickerProviderSt
                   child: const Text(
                     'Back to Home',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
