@@ -22,5 +22,10 @@ Welcome to the **Quiz App**! This app allows users to take quizzes, sign in with
 ```bash
 git clone https://github.com/iabhinavrajput/quiz_app
 cd quiz_app
+```
 
+## Install dependencies
 
+```bash
+flutter pub get
+```
