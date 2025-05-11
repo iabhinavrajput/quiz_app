@@ -5,7 +5,7 @@ import '../../utils/constants/api_constants.dart';
 
 class QuizService {
   Future<List<Question>> fetchQuestions({required String difficulty}) async {
-    const url = ApiConstants.baseUrl;
+    final url = ApiConstants.baseUrl;
 
     final prompt =
         "Generate 5 $difficulty general knowledge multiple-choice questions. "
