@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:no_screenshot/no_screenshot.dart'; // Correct import for no_screenshot
 import 'package:quiz_app/bloc/auth/auth_bloc.dart';
 import 'package:quiz_app/bloc/quiz/quiz_bloc.dart';
 import 'package:quiz_app/data/services/quiz_service.dart';
@@ -9,10 +11,17 @@ import 'package:quiz_app/presentation/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
-  // Ensure proper initialization of Firebase before the app runs
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const QuizApp());
+
+  NoScreenshot.instance; 
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((_) {
+    runApp(const QuizApp());
+  });
 }
 
 class QuizApp extends StatelessWidget {
