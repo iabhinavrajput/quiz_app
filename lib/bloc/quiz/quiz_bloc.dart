@@ -34,6 +34,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
       _answerLogs.add(AnswerLog(
         question: question.question,
         selectedAnswer: event.selectedAnswer,
+        correctAnswer: question.answer,
         isCorrect: isCorrect,
       ));
 

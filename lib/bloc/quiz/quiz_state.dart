@@ -39,11 +39,13 @@ class QuizError extends QuizState {
 class AnswerLog {
   final String question;
   final String selectedAnswer;
+  final String correctAnswer;
   final bool isCorrect;
 
   AnswerLog({
     required this.question,
     required this.selectedAnswer,
+    required this.correctAnswer,
     required this.isCorrect,
   });
 
@@ -51,7 +53,17 @@ class AnswerLog {
     return {
       'question': question,
       'selectedAnswer': selectedAnswer,
+      'correctAnswer': correctAnswer,
       'isCorrect': isCorrect,
     };
+  }
+
+  factory AnswerLog.fromMap(Map<String, dynamic> map) {
+    return AnswerLog(
+      question: map['question'],
+      selectedAnswer: map['selectedAnswer'],
+      correctAnswer: map['correctAnswer'],
+      isCorrect: map['isCorrect'],
+    );
   }
 }

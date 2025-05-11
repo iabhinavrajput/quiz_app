@@ -40,10 +40,12 @@ class DetailScreen extends StatelessWidget {
               .get(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: SpinKitChasingDots(
-                              color: AppColors.white,
-                              size: 30.0,
-                            ),);
+              return const Center(
+                child: SpinKitChasingDots(
+                  color: AppColors.white,
+                  size: 30.0,
+                ),
+              );
             }
 
             if (snapshot.hasError) {
@@ -66,7 +68,7 @@ class DetailScreen extends StatelessWidget {
 
             return SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 40.0), // Added vertical padding for top
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 40.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -129,6 +131,7 @@ class DetailScreen extends StatelessWidget {
                         final answer = answers[index] as Map<String, dynamic>;
                         final question = answer['question'] ?? 'N/A';
                         final selectedAnswer = answer['selectedAnswer'] ?? 'N/A';
+                        final correctAnswer = answer['correctAnswer'] ?? 'N/A';
                         final isCorrect = answer['isCorrect'] == true;
 
                         return Padding(
@@ -163,7 +166,7 @@ class DetailScreen extends StatelessWidget {
                                   ),
                                   if (!isCorrect)
                                     Text(
-                                      'Correct Answer: ${answer['correctAnswer'] ?? 'N/A'}',
+                                      'Correct Answer: $correctAnswer',
                                       style: const TextStyle(
                                         fontSize: 14,
                                         color: Colors.black54,
@@ -180,7 +183,6 @@ class DetailScreen extends StatelessWidget {
                     const SizedBox(height: 20),
 
                     // Back Button with AnimatedContainer
-
                     GestureDetector(
                       child: AnimatedContainer(
                         height: 60,
@@ -214,7 +216,6 @@ class DetailScreen extends StatelessWidget {
                         Navigator.pop(context);
                       },
                     ),
-                    
                   ],
                 ),
               ),
