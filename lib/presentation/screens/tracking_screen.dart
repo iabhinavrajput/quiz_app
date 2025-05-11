@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:intl/intl.dart';  
+import 'package:intl/intl.dart';
+import 'package:quiz_app/presentation/screens/quiz_track_detail_screen.dart';
 import 'package:quiz_app/utils/constants/colors.dart';
 
 class TrackingScreen extends StatelessWidget {
@@ -29,12 +30,13 @@ class TrackingScreen extends StatelessWidget {
           ),
         ),
         child: FutureBuilder<QuerySnapshot>(
-          future: FirebaseFirestore.instance
-              .collection('users') 
-              .doc(user.uid) 
-              .collection('quiz_history') 
-              .orderBy('timestamp', descending: true) 
-              .get(),
+          future:
+              FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(user.uid)
+                  .collection('quiz_history')
+                  .orderBy('timestamp', descending: true)
+                  .get(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -58,10 +60,13 @@ class TrackingScreen extends StatelessWidget {
                 final answers = quizData['answers'] as List;
                 final score = quizData['score'] ?? 0;
                 final total = quizData['total'] ?? 0;
-                final timestamp = (quizData['timestamp'] as Timestamp?)?.toDate();
+                final timestamp =
+                    (quizData['timestamp'] as Timestamp?)?.toDate();
 
-                String formattedDate = DateFormat('MMM dd, yyyy').format(timestamp!); 
-                String formattedTime = DateFormat('hh:mm a').format(timestamp);  
+                String formattedDate = DateFormat(
+                  'MMM dd, yyyy',
+                ).format(timestamp!);
+                String formattedTime = DateFormat('hh:mm a').format(timestamp);
 
                 // Calculate percentage if not stored
                 double percentage = (total != 0) ? (score / total * 100) : 0;
@@ -78,10 +83,7 @@ class TrackingScreen extends StatelessWidget {
                       contentPadding: const EdgeInsets.all(20),
                       leading: CircleAvatar(
                         backgroundColor: AppColors.primaryGradientStart,
-                        child: Icon(
-                          Icons.track_changes,
-                          color: Colors.white,
-                        ),
+                        child: Icon(Icons.track_changes, color: Colors.white),
                       ),
                       title: Text(
                         'Quiz taken at: $formattedDate',
@@ -95,7 +97,7 @@ class TrackingScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Time: $formattedTime',  
+                            'Time: $formattedTime',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 14,
@@ -107,9 +109,10 @@ class TrackingScreen extends StatelessWidget {
                             'Score: $score / $total',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
-                              color: score >= total * 0.8
-                                  ? Colors.green[700]
-                                  : Colors.red[700],
+                              color:
+                                  score >= total * 0.8
+                                      ? Colors.green[700]
+                                      : Colors.red[700],
                             ),
                           ),
                           const SizedBox(height: 4),
@@ -117,9 +120,10 @@ class TrackingScreen extends StatelessWidget {
                             'Percentage: ${percentage.toStringAsFixed(2)}%',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
-                              color: percentage >= 80
-                                  ? Colors.green[700]
-                                  : Colors.red[700],
+                              color:
+                                  percentage >= 80
+                                      ? Colors.green[700]
+                                      : Colors.red[700],
                             ),
                           ),
                           const SizedBox(height: 4),
@@ -137,7 +141,15 @@ class TrackingScreen extends StatelessWidget {
                         color: AppColors.primaryGradientStart,
                       ),
                       onTap: () {
-                        
+                        // Navigate to the detail screen of the selected quiz
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) =>
+                                    DetailScreen(quizDocId: data[index].id),
+                          ),
+                        );
                       },
                     ),
                   ),
