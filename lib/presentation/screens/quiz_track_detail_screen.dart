@@ -62,7 +62,7 @@ class DetailScreen extends StatelessWidget {
 
             return SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 40.0), // Added vertical padding for top
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -70,7 +70,7 @@ class DetailScreen extends StatelessWidget {
                     Text(
                       'Quiz Details',
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 28,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
@@ -92,7 +92,7 @@ class DetailScreen extends StatelessWidget {
                     Text(
                       'Score: $score/$total',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: percentage >= 80 ? Colors.green[700] : Colors.red[700],
                       ),
@@ -111,7 +111,7 @@ class DetailScreen extends StatelessWidget {
                     Text(
                       'Answers:',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 22,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
@@ -119,24 +119,22 @@ class DetailScreen extends StatelessWidget {
                     const SizedBox(height: 10),
                     ListView.builder(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: answers.length,
                       itemBuilder: (context, index) {
                         final answer = answers[index] as Map<String, dynamic>;
                         final question = answer['question'] ?? 'N/A';
                         final selectedAnswer = answer['selectedAnswer'] ?? 'N/A';
-                        final correctAnswer = answer['isCorrect'] != null && answer['isCorrect'] == true
-                            ? selectedAnswer
-                            : 'N/A'; // Only show correct answer if marked correct
+                        final isCorrect = answer['isCorrect'] == true;
 
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: Card(
                             color: Colors.white.withOpacity(0.9),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                            elevation: 8,
+                            elevation: 5,
                             child: ListTile(
                               contentPadding: const EdgeInsets.all(12),
                               title: Text(
@@ -154,18 +152,20 @@ class DetailScreen extends StatelessWidget {
                                     'Your Answer: $selectedAnswer',
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: selectedAnswer == correctAnswer
+                                      color: isCorrect
                                           ? Colors.green[700]
                                           : Colors.red[700],
                                     ),
                                   ),
-                                  Text(
-                                    'Correct Answer: $correctAnswer',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.black54,
+                                  if (!isCorrect)
+                                    Text(
+                                      'Correct Answer: ${answer['correctAnswer'] ?? 'N/A'}',
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black54,
+                                        fontStyle: FontStyle.italic,
+                                      ),
                                     ),
-                                  ),
                                 ],
                               ),
                             ),
@@ -175,23 +175,42 @@ class DetailScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
 
-                    // Back Button
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryGradientStart,
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        shape: RoundedRectangleBorder(
+                    // Back Button with AnimatedContainer
+
+                    GestureDetector(
+                      child: AnimatedContainer(
+                        height: 60,
+                        duration: const Duration(milliseconds: 300),
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 18),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [
+                              AppColors.signInGradientStart,
+                              AppColors.signInGradientEnd,
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
                           borderRadius: BorderRadius.circular(30),
                         ),
+                        child: Center(
+                          child: Text(
+                            'Back to Quiz History',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
                       ),
-                      onPressed: () {
-                        Navigator.pop(context); // Navigate back to the previous screen
+                      onTap: () {
+                        Navigator.pop(context);
                       },
-                      child: const Text(
-                        'Back to History',
-                        style: TextStyle(fontSize: 16),
-                      ),
                     ),
+                    
                   ],
                 ),
               ),
