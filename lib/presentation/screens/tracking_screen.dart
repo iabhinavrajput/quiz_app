@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:quiz_app/presentation/screens/quiz_track_detail_screen.dart';
 import 'package:quiz_app/utils/constants/colors.dart';
@@ -39,7 +40,10 @@ class TrackingScreen extends StatelessWidget {
                   .get(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: SpinKitChasingDots(
+                              color: AppColors.white,
+                              size: 30.0,
+                            ),);
             }
 
             if (snapshot.hasError) {
