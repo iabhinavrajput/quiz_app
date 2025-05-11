@@ -16,6 +16,7 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
 
   void _onLoadQuiz(LoadQuizEvent event, Emitter<QuizState> emit) async {
     emit(QuizLoading());
+    _answerLogs = [];
     try {
       final questions = await quizService.fetchQuestions(difficulty: event.difficulty);
       emit(QuizLoaded(questions: questions));
