@@ -20,27 +20,40 @@ class QuizService {
       ]
     };
 
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: ApiConstants.headers,
+        body: jsonEncode(requestBody),
+      );
 
+      if (response.statusCode == 200) {
+        final content =
+            jsonDecode(response.body)['choices'][0]['message']['content'];
+        if (content.isEmpty || !content.startsWith('[') || !content.endsWith(']')) {
+          throw FormatException('Invalid or incomplete response format');
+        }
 
-    final response = await http.post(
-      Uri.parse(url),
-      headers: ApiConstants.headers,
-      body: jsonEncode(requestBody),
-    );
+        final jsonStart = content.indexOf('[');
+        final jsonEnd = content.lastIndexOf(']');
+        final jsonString = content.substring(jsonStart, jsonEnd + 1);
 
-
-    if (response.statusCode == 200) {
-      final content =
-          jsonDecode(response.body)['choices'][0]['message']['content'];
-
-      final jsonStart = content.indexOf('[');
-      final jsonEnd = content.lastIndexOf(']');
-      final jsonString = content.substring(jsonStart, jsonEnd + 1);
-
-      final List<dynamic> data = jsonDecode(jsonString);
-      return data.map((e) => Question.fromJson(e)).toList();
-    } else {
-      throw Exception('Failed to load questions');
+        final List<dynamic> data = jsonDecode(jsonString);
+        return data.map((e) => Question.fromJson(e)).toList();
+      } else {
+        throw Exception('Failed to load questions');
+      }
+    } catch (e) {
+      if (e is FormatException) {
+        print('FormatException: $e');
+        throw Exception('There was an issue with the response format. Please try again.');
+      } else if (e is http.ClientException) {
+        print('HTTP error: $e');
+        throw Exception('Network error occurred. Please check your connection.');
+      } else {
+        print('Unknown error: $e');
+        throw Exception('An unknown error occurred. Please try again.');
+      }
     }
   }
 }
