@@ -23,12 +23,35 @@ class QuizLoaded extends QuizState {
 class QuizCompleted extends QuizState {
   final int score;
   final int total;
+  final List<AnswerLog> answerLogs; // Add this field
 
-  QuizCompleted(this.score, this.total);
+  QuizCompleted(this.score, this.total, this.answerLogs);
 }
+
 
 class QuizError extends QuizState {
   final String message;
 
   QuizError(this.message);
+}
+
+
+class AnswerLog {
+  final String question;
+  final String selectedAnswer;
+  final bool isCorrect;
+
+  AnswerLog({
+    required this.question,
+    required this.selectedAnswer,
+    required this.isCorrect,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'question': question,
+      'selectedAnswer': selectedAnswer,
+      'isCorrect': isCorrect,
+    };
+  }
 }

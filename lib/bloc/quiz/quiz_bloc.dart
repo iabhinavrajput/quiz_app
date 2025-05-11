@@ -6,7 +6,7 @@ import 'quiz_state.dart';
 class QuizBloc extends Bloc<QuizEvent, QuizState> {
   final QuizService quizService;
 
-  List<String>? _answers;
+  List<AnswerLog> _answerLogs = []; // List to store answer logs
   List _questions = [];
 
   QuizBloc(this.quizService) : super(QuizInitial()) {
@@ -27,7 +27,16 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
   void _onAnswerSelected(AnswerSelectedEvent event, Emitter<QuizState> emit) {
     final currentState = state;
     if (currentState is QuizLoaded) {
-      final isCorrect = event.selectedAnswer == currentState.questions[currentState.currentQuestionIndex].answer;
+      final question = currentState.questions[currentState.currentQuestionIndex];
+      final isCorrect = event.selectedAnswer == question.answer;
+
+      // Create an AnswerLog entry
+      _answerLogs.add(AnswerLog(
+        question: question.question,
+        selectedAnswer: event.selectedAnswer,
+        isCorrect: isCorrect,
+      ));
+
       final nextIndex = currentState.currentQuestionIndex + 1;
       final newScore = isCorrect ? currentState.score + 1 : currentState.score;
 
@@ -38,7 +47,8 @@ class QuizBloc extends Bloc<QuizEvent, QuizState> {
           score: newScore,
         ));
       } else {
-        emit(QuizCompleted(newScore, currentState.questions.length));
+        // Pass the answerLogs when completing the quiz
+        emit(QuizCompleted(newScore, currentState.questions.length, _answerLogs));
       }
     }
   }
