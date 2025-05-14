@@ -14,6 +14,7 @@ import 'package:quiz_app/presentation/screens/auth_screen.dart';
 import 'package:quiz_app/presentation/screens/home_screen.dart';
 
 void main() async {
+  checkAnalytics();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await dotenv.load();
@@ -42,9 +43,7 @@ class QuizApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Quiz App',
-        navigatorObservers: [
-          FirebaseAnalyticsObserver(analytics: analytics),
-        ],
+        navigatorObservers: [FirebaseAnalyticsObserver(analytics: analytics)],
         home: _buildHomeScreen(),
       ),
     );
@@ -58,4 +57,13 @@ class QuizApp extends StatelessWidget {
       return const AuthScreen();
     }
   }
+}
+
+void checkAnalytics() async {
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  await analytics.logEvent(
+    name: 'test_event',
+    parameters: {'test_param': 'value'},
+  );
+  print("Test event sent to Firebase Analytics");
 }
